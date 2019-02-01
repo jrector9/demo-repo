@@ -4,14 +4,19 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+  - master
+
+pr:
+  - '\d{9,}-*'
+  - 'azure-pipelines'
 
 pool:
   vmImage: 'Ubuntu-16.04'
 
 steps:
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(build.sourcesDirectory)'
-    includeRootFolder: false
-- task: PublishBuildArtifacts@1
+  - script: 'dotnet restore'
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: '$(build.sourcesDirectory)'
+      includeRootFolder: false
+  - task: PublishBuildArtifacts@1
